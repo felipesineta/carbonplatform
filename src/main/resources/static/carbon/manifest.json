@@ -1,0 +1,138 @@
+{
+	"_version": "1.0.0",
+	"sap.app": {
+		"_version": "1.0.0",
+		"id": "carbon",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "",
+		"description": "",
+		"ach": "CA-UI5-DOC"
+	},
+	"sap.ui": {
+		"_version": "1.0.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.0.0",
+		"rootView": {
+			"viewName": "carbon.view.App",
+			"id": "root_view",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "carbon.i18n.i18n"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "carbon.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"bypassed": {
+					"target": "notFound"
+				}
+			},
+			"routes": [
+				{
+					"pattern": "homepage",
+					"name": "toHomepage",
+					"target": "homepage"
+				},
+				{
+					"pattern": "perfil",
+					"name": "toPerfil",
+					"target": "perfil"
+				},
+				{
+					"pattern": "conversas",
+					"name": "toConversas",
+					"target": "conversas"
+				},
+				{
+					"pattern": "mensagens/{conversaId}",
+					"name": "toMensagens",
+					"target": "mensagens"
+				},
+				{
+					"pattern": "projeto",
+					"name": "toNovoProjeto",
+					"target": "projeto"
+				},
+				{
+					"pattern": "notFound",
+					"name": "toNotFound",
+					"target": "notFound"
+				}
+			],
+			"targets": {
+				"homepage": {
+					"viewName": "Home",
+					"viewLevel": 1,
+					"viewId": "homepage"
+				},
+				"perfil": {
+					"viewName": "Perfil",
+					"viewLevel": 15,
+					"viewId": "perfil"
+				},
+				"conversas": {
+					"viewName": "Conversas",
+					"viewLevel": 13,
+					"viewId": "conversas"
+				},
+				"mensagens": {
+					"viewName": "Mensagens",
+					"viewLevel": 14,
+					"viewId": "mensagens"
+				},
+				"projeto": {
+					"viewName": "Projeto",
+					"viewLevel": 2,
+					"viewId": "rojeto"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"transition": "show"
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.0.0"
+	}
+}

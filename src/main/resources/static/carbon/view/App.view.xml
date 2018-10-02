@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.App" xmlns="sap.m"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc">
+	<App id="app">
+	</App>
+</mvc:View>

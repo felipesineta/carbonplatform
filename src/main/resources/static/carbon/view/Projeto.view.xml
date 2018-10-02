@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.Projeto" xmlns="sap.m" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns:core="sap.ui.core">
+	<Page showHeader="true" title="Criar projeto" showFooter="true" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <IconTabBar expandable="false" expanded="true" applyContentPadding="false" backgroundDesign="Solid" upperCase="false" visible="true" selectedKey="Ok">
+                <items>
+                    <IconTabFilter icon="sap-icon://hint" iconColor="Default" text="" count="" design="Vertical" showAll="false" textDirection="Inherit" enabled="true" visible="true" iconDensityAware="false">
+                        <content>
+	                        
+	                        <form:Form width="100%" editable="true" visible="true">
+                                <form:title>
+                                    <core:Title text="Informações" level="Auto"/>
+                                </form:title>
+                                <form:formContainers/>
+                                <form:layout>
+                                    <form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
+                                </form:layout>
+                            </form:Form>
+                            <ScrollContainer horizontal="false" vertical="true" width="100%" height="auto" visible="true">
+                                <content>
+			                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="auto" height="auto" justifyContent="Center" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMargin">
+			                        	<Label text="Nome: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+			                        	<Input id="nomeProjeto" type="Text" showValueHelp="false" enabled="true" visible="true" width="100%" valueHelpOnly="false" maxLength="0"/>
+		                                <Label text="" width="100%"/>
+		                                <Label text="Descrição: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+		                                <TextArea id="descricaoProjeto" width="100%" rows="2" cols="20" maxLength="0" wrapping="None" enabled="true" visible="true"/>
+		                                <Label text="" width="100%"/>
+		                                <Label text="Tópicos de interesse: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+					                		<items>
+							                	<Input id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" suggestionItems="{topicos>/}" >
+													<suggestionItems>
+														<core:Item text="{topicos>nome}" />
+													</suggestionItems>
+												</Input>
+												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
+											</items>
+					                		<layoutData/>
+					           			</HBox>
+					                    <Panel id="panelTopicos" width="100%" enabled="true" visible="true"/>
+		                                <Label text="" width="100%"/>
+		                                <Label text="Habilidades desejadas: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+					                		<items>
+							                	<Input id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" suggestionItems="{habilidades>/}" >
+													<suggestionItems>
+														<core:Item text="{habilidades>nome}" />
+													</suggestionItems>
+												</Input>
+												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
+											</items>
+					                		<layoutData/>
+					           			</HBox>
+					                    <Panel id="panelHabilidades" width="100%" enabled="true" visible="true"/>
+		                                <Label text="" width="100%"/>
+		                                <Label text="Participantes: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+					                		<items>
+							                	<Input id="inputParticipantes" class="campoBusca" type="Text" placeholder="Buscar usuário..." showSuggestion="true" suggestionItems="{usuarios>/}" >
+													<suggestionItems>
+														<core:Item text="{usuarios>nome} {usuarios>sobrenome} ({usuarios>email})" />
+													</suggestionItems>
+												</Input>
+												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddParticipante"/>
+											</items>
+					                		<layoutData/>
+					           			</HBox>
+					                    <Panel id="panelParticipantes" width="100%" enabled="true" visible="true"/>
+		                                <Label text="" width="100%"/>
+		                                <Label text="Encerramento: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+		                                <DatePicker id="inputDataEncerramento" width="100%" displayFormat="MMM dd, yyyy" enabled="true" visible="true"/>
+			                        </VBox>
+			                    </content>
+			                </ScrollContainer>
+	                        
+                        </content>
+                    </IconTabFilter>
+                    <IconTabFilter id="abaComentarios" icon="sap-icon://comment" iconColor="Default" text="" count="" design="Vertical" showAll="false" textDirection="Inherit" enabled="true" visible="true" iconDensityAware="false">
+                        <content>
+                            <form:Form width="100%" editable="true" visible="true">
+                                <form:title>
+                                    <core:Title text="Conversa" level="Auto"/>
+                                </form:title>
+                                <form:formContainers/>
+                                <form:layout>
+                                    <form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
+                                </form:layout>
+                            </form:Form>
+                            <ScrollContainer horizontal="false" vertical="true" width="100%" height="auto" visible="true">
+                                <content>
+                                    <List width="100%" growing="false" growingThreshold="20" growingScrollToLoad="false" backgroundDesign="Solid">
+                                        <items>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 03 2016" senderPress="_onFeedListItemSenderPress" iconPress="_onFeedListItemIconPress"/>
+                                            <FeedListItem icon="" sender="George Washington" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 04 2016"/>
+                                            <FeedListItem icon="" sender="Alexandrina Victoria" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" info="Request" timestamp="March 07 2016"/>
+                                        </items>
+                                    </List>
+                                </content>
+                            </ScrollContainer>
+                            <FeedInput showIcon="true" icon="" placeholder="Post something here" enabled="true" visible="true" maxLength="0" buttonTooltip="Submit"/>
+                        </content>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <footer>
+            <OverflowToolbar width="100%" height="auto" design="Auto" enabled="true" visible="true">
+                <content>
+                    <ToolbarSpacer width=""/>
+                    <Button text="Criar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSalvaProjeto"/>
+                </content>
+            </OverflowToolbar>
+        </footer>
+        <headerContent>
+            <OverflowToolbarButton text="" type="Transparent" icon="sap-icon://post" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onConversas"/>
+            <OverflowToolbarButton text="" type="Transparent" icon="sap-icon://menu2" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPerfil"/>
+        </headerContent>
+        <subHeader/>
+        <customHeader/>
+    </Page>
+</mvc:View>

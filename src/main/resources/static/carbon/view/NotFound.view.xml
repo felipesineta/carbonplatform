@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.NotFound"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" showNavButton="true"
+	navButtonPress="onNavBack">
+	<MessagePage title="Not Found"
+		text="Sorry, but the requested resource is not available."
+		description="Please check the URL and try again." />
+</mvc:View>

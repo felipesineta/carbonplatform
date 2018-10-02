@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.Home" xmlns="sap.m" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc">
+
+	<Page id="homepage" title="Início" showFooter="false" showNavButton="true" navButtonPress="onLogout">
+        <content>
+            <Panel height="auto" width="100%" headerText="" expandable="false" expanded="true" expandAnimation="false" backgroundDesign="Solid" class="tileCentralizado sapUiContentPadding">
+                <content>
+	                <GenericTile class="marginTile tileSize" header="Criar novo projeto"
+						subheader="" press="onPressTile">
+						<TileContent>
+							<ImageContent src="sap-icon://add-document" />
+						</TileContent>
+					</GenericTile>
+	                <GenericTile class="marginTile tileSize" header="Projetos em andamento"
+						subheader="4" press="onPressTile">
+						<TileContent>
+							<ImageContent src="sap-icon://pushpin-on" />
+						</TileContent>
+					</GenericTile>
+	                <GenericTile class="marginTile tileSize" header="Histórico de projetos"
+						subheader="12" press="onPressTile">
+						<TileContent>
+							<ImageContent src="sap-icon://timesheet" />
+						</TileContent>
+					</GenericTile>
+	                <GenericTile class="marginTile tileSize" header="Busca avançada"
+						subheader="" press="onPressTile">
+						<TileContent>
+							<ImageContent src="sap-icon://inspection" />
+						</TileContent>
+					</GenericTile>
+                </content>
+            </Panel>
+        </content>
+        <footer/>
+        <headerContent>
+            <OverflowToolbarButton text="" type="Transparent" icon="sap-icon://post" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onConversas"/>
+            <OverflowToolbarButton text="" type="Transparent" icon="sap-icon://menu2" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPerfil"/>
+        </headerContent>
+        <subHeader/>
+        <customHeader/>
+	</Page>
+
+</mvc:View>

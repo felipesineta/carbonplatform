@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<style>
+			body {
+				font-family: Arial;
+				color: rgb(23, 23, 23);
+				padding: 5px 12px;
+			}
+			.painel {
+				border-radius: 7px;
+				padding: 10px 25px;
+			}
+			.u {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div class="painel">
+			<h2>Bem vindo à Plataforma Carbon</h2>
+			<br/>
+		
+			<p>Olá <span th:text="${fullName}"></span>,<br/><br/>
+				Obrigado por se cadastrar na plataforma. Queremos ver cada vez mais pessoas se conectando e realizando projetos incríveis.<br/>
+				Abaixo estão seus dados de acesso.<br/><br/>
+				<span class="u">Nome de usuário:</span> <span th:text="${username}"></span><br/>
+				<span class="u">Senha:</span> <span th:text="${password}"></span></p>
+			
+			<p>Desejamos todo o sucesso para você em seus projetos!</p>
+			<p>Atenciosamente,<br/>
+				Equipe Carbon.</p><br/>
+		</div>
+	</body>
+</html>

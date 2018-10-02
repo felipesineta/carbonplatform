@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.Perfil" xmlns="sap.m" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns:core="sap.ui.core">
+<Page showHeader="true" title="Configurações" showFooter="true" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="auto" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+                <items>
+                    <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="auto" height="auto" justifyContent="Center" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMargin">
+                        <items>
+                            <Text text="NOME: {perfil>/nome} {perfil>/sobrenome}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="NOME DE USUÁRIO: {perfil>/username}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="E-MAIL: {perfil>/email}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                        </items>
+                        <layoutData/>
+                    </VBox>
+                </items>
+                <layoutData/>
+            </HBox>
+            <Panel height="auto" width="100%" headerText="Tópicos de interesse" expandable="true" expanded="true" expandAnimation="true" backgroundDesign="Solid">
+                <content>
+                	<HBox alignItems="Stretch" direction="Row" fitContainer="false" width="auto" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+                		<items>
+		                	<Input id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" suggestionItems="{topicos>/}" >
+								<suggestionItems>
+									<core:Item text="{topicos>nome}" />
+								</suggestionItems>
+							</Input>
+							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
+						</items>
+                		<layoutData/>
+           			</HBox>
+                    <Panel id="panelTopicos" enabled="true" visible="true"/>
+                </content>
+            </Panel>
+            <Panel height="auto" width="100%" headerText="Habilidades" expandable="true" expanded="true" expandAnimation="true" backgroundDesign="Solid">
+                <content>
+                    <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="auto" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
+                		<items>
+		                	<Input id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" suggestionItems="{habilidades>/}" >
+								<suggestionItems>
+									<core:Item text="{habilidades>nome}" />
+								</suggestionItems>
+							</Input>
+							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
+						</items>
+                		<layoutData/>
+           			</HBox>
+                    <Panel id="panelHabilidades" enabled="true" visible="true"/>
+                </content>
+            </Panel>
+        </content>
+        <footer>
+            <OverflowToolbar width="100%" height="auto" design="Auto" enabled="true" visible="true">
+                <content>
+                    <ToolbarSpacer width=""/>
+                    <Button text="Salvar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSave"/>
+                </content>
+            </OverflowToolbar>
+        </footer>
+        <headerContent/>
+        <subHeader/>
+        <customHeader/>
+    </Page>
+</mvc:View>

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<link rel="icon" type="image/x-icon" href="/carbon/app icon v2.png" />
+	<title>Plataforma Carbon</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<script 
+		id="sap-ui-bootstrap" 
+		src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" 
+		data-sap-ui-libs="sap.m,sap.ui.unified,sap.ui.layout"
+	    data-sap-ui-theme="sap_belize" 
+	    data-sap-ui-compatVersion="edge" 
+	    data-sap-ui-resourceroots="{&quot;carbon&quot;: &quot;./carbon&quot;}"
+	    data-sap-ui-xx-bindingSyntax="complex" data-sap-ui-preload="async">
+	</script>
+
+	<!-- <link rel="stylesheet" type="text/css" href="carbon/css/style.css"></link> -->
+
+	<script>
+		sap.ui.getCore().attachInit(function () {
+			new sap.m.Shell('shell', {
+				app: new sap.ui.core.ComponentContainer("component_container", {
+					height: "99%",
+					name: "carbon"
+				})
+			}).placeAt("content");
+		});
+	</script>
+</head>
+
+<body class="sapUiBody" id="content">
+</body>
+
+</html>

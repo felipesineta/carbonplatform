@@ -1,0 +1,149 @@
+<head>
+	<meta charset="UTF-8"/>
+	<title>Plataforma Carbon - Cadastro</title>
+	<link rel="icon" type="image/x-icon" href="/carbon/app icon v2.png" />
+</head>
+
+<script id="sap-ui-bootstrap" src="https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js"
+	type="text/javascript" data-sap-ui-libs="sap.m"
+	data-sap-ui-theme="sap_belize">	
+</script>
+
+<script id="myxml" type="text/xmldata">
+   <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:form="sap.ui.layout.form" controllerName="myController2" >
+	  <App>
+		 <Page title="Plataforma Carbon - Cadastro" style="text-align:center;" showNavButton="true" navButtonPress="onVolta">
+            <core:HTML id="html" content="hello"  style="text-align:center;"/>
+			<form:Form width="100%" editable="true" visible="true" style="text-align:center;">
+                <form:title/>
+                <form:formContainers>
+                    <form:FormContainer visible="true">
+                        <form:formElements>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Nome" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputNome" type="Text" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Sobrenome" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputSobrenome" type="Text" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="E-mail" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputEmail" type="Text" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Nome de usuário" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputUsername" type="Text" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Senha" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputPassword" type="Password" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Confirmação" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Input id="inputPassword2" type="Password" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Button text="Cadastrar" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onCadastra"/>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                        <form:title/>
+                    </form:FormContainer>
+                </form:formContainers>
+                <form:layout>
+                    <form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
+                </form:layout>
+            </form:Form>
+		 </Page>
+	  </App>
+   </mvc:View>	
+  </script>
+	
+ <script>
+	
+	sap.ui.controller("myController2", {
+		onCadastra() {
+			const dialog = new sap.m.BusyDialog();
+			dialog.open();
+			
+			jQuery.sap.require("sap.m.MessageBox");
+			var that = this;
+			
+			if (that.getView().byId("inputPassword").getValue() == that.getView().byId("inputPassword2").getValue()) {
+				var usuario = {
+					nome: that.getView().byId("inputNome").getValue(),
+					sobrenome: that.getView().byId("inputSobrenome").getValue(),
+					email: that.getView().byId("inputEmail").getValue(),
+					username: that.getView().byId("inputUsername").getValue(),
+					password: that.getView().byId("inputPassword").getValue()
+				}
+				if (usuario.nome == "" ||
+						usuario.sobrenome == "" ||
+						usuario.email == "" ||
+						usuario.username == "" ||
+						usuario.password == "") {
+					dialog.close();
+					sap.m.MessageBox.error("Favor preencer todos os campos!", {title: "Erro"});
+					return;
+				}
+				$.ajax({
+					method: "POST",
+					url: "/carbon/api/cadastro/novo",
+					data: JSON.stringify(usuario),
+					dataType: "json",
+					contentType: 'application/json',
+					success: (oResult, oResponse) => {
+						dialog.close();
+						sap.m.MessageBox.success("Usuário cadastrado com sucesso! Foi enviado para o endereço fornecido um e-mail com uma cópia dos dados de acesso", 
+								{title: "Sucesso", onClose: function(){window.location = "/carbon/login";}});
+					},
+					error: (oResult, oResponse) => {
+						dialog.close();
+						sap.m.MessageBox.error(oResult.responseJSON.message, {title: "Erro"});
+					}
+				})
+			} else {
+				dialog.close();
+				sap.m.MessageBox.error("Senhas não conferem!", {title: "Erro"});
+			}
+			
+		},
+		
+		onVolta() {
+			window.location = "/carbon/login";
+		}
+	});	
+	sap.ui.view({ viewContent:document.scripts.myxml.innerText, type:sap.ui.core.mvc.ViewType.XML }).placeAt("content")
+ </script>
+ 
+ <body class='sapUiBody' id='content' style="text-align:center;">
+ </body>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<mvc:View controllerName="carbon.controller.Mensagens" xmlns="sap.m" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns:core="sap.ui.core">
+	<Page showHeader="true" title="Mensagens" showFooter="false" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <ScrollContainer id="scrollContainer" horizontal="false" vertical="true" width="100%" height="497px" visible="true">
+                <content>
+                    <List width="100%" growing="false" growingThreshold="20" growingScrollToLoad="false" backgroundDesign="Solid" items="{mensagens>/}">
+                        <items>
+                            <FeedListItem icon="" sender="{mensagens>remetente/nome} {mensagens>remetente/sobrenome}" text="{mensagens>texto}" timestamp="{path: 'mensagens>createdAt', formatter: '.formatter.timestamps'}"/>
+                        </items>
+                    </List>
+                </content>
+            </ScrollContainer>
+            <FeedInput id="textAreaMensagem" showIcon="true" icon="" placeholder="Escrever mensagem..." enabled="true" visible="true" maxLength="1024" buttonTooltip="Enviar" post="onMandaMensagem"/>
+        </content>
+        <footer/>
+        <headerContent/>
+        <subHeader/>
+        <customHeader/>
+    </Page>
+</mvc:View>

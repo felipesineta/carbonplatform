@@ -1,0 +1,23 @@
+.tileCentralizado {
+	text-align: center;
+}
+
+.marginTile {
+	margin-left: 8px;
+	margin-right: 8px;
+	margin-bottom: 16px;
+}
+
+.campoBusca {
+	margin-right: 5px;
+}
+
+.tileSize {
+	width: 5rem;
+	height: 5rem;
+}
+
+.central {
+	padding: 10px;
+	text-align: center;
+}
