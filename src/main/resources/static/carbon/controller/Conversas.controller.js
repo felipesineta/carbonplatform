@@ -111,7 +111,7 @@ sap.ui.define([
 				
 				$.ajax({
 					method: "POST",
-					url: "/carbon/api/conversa/novo",
+					url: "/carbon/api/conversa/novou",
 					data: JSON.stringify(conversa),
 					dataType: "json",
 					contentType: 'application/json',

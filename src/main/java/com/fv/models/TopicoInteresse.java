@@ -32,10 +32,10 @@ public class TopicoInteresse extends BaseObject implements Serializable {
 	public String nome = null;
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "topicosInteresse")
-	@JsonIgnoreProperties("topicosInteresse")
+	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "projetos"})
 	public List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "topicosInteresse")
-	@JsonIgnoreProperties("topicosInteresse")
+	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "criador", "participantes", "conversa"})
 	public List<Projeto> projetos = new ArrayList<Projeto>();
 }

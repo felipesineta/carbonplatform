@@ -1,10 +1,14 @@
 sap.ui.define([
 	'carbon/controller/BaseController',
-], BaseController => BaseController.extend("carbon.controller.Projeto", {
+	'carbon/formatter',
+], (BaseController, Formatter) => BaseController.extend("carbon.controller.Projeto", {
+
+	formatter: Formatter,
 
 	onInit() {
 		const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		oRouter.getRoute("toNovoProjeto").attachPatternMatched(this.create, this);
+		oRouter.getRoute("toShowProjeto").attachPatternMatched(this.show, this);
 	},
 	
 	create() {
@@ -20,13 +24,70 @@ sap.ui.define([
 		this.getView().byId("panelHabilidades").destroyContent();
 		this.getView().byId("inputParticipantes").setValue("");
 		this.getView().byId("panelParticipantes").destroyContent();
-		this.getView().byId("inputDataEncerramento").setValue("");
 		
 		this.carregaModelosBase();
+
+		this.getView().byId("btnRodape").setText("Criar");
+		this.getView().byId("tituloPage").setTitle("Novo projeto");
+		
+		this.verb = "POST";
 	},
 	
-	show() {
+	show(oEvent) {
+		const projetoId = oEvent.getParameter('arguments').projetoId;
 		
+		// carrega os topicos de interesse nas sugestoes
+		const oModelProjeto = new sap.ui.model.json.JSONModel();
+		oModelProjeto.setData(jQuery.sap.syncGetJSON(`api/projeto/p=${projetoId}`).data);
+		this.getView().setModel(oModelProjeto, "projeto");
+		
+		this.getView().byId("abaComentarios").setVisible(true);
+		this.getView().byId("tabBar").setSelectedKey("1");
+		
+		this.getView().byId("nomeProjeto").setValue(oModelProjeto.getData().nome);
+		this.getView().byId("descricaoProjeto").setValue(oModelProjeto.getData().descricao);
+		
+		this.getView().byId("inputTopicos").setValue("");
+		this.getView().byId("panelTopicos").destroyContent();
+		this.getView().byId("inputHabilidades").setValue("");
+		this.getView().byId("panelHabilidades").destroyContent();
+		this.getView().byId("inputParticipantes").setValue("");
+		this.getView().byId("panelParticipantes").destroyContent();
+		
+		this.carregaModelosBase();
+		
+		this.getView().byId("btnRodape").setText("Salvar");
+		this.getView().byId("tituloPage").setTitle("Projeto");
+		
+		const that = this;
+		this.getView().getModel("projeto").getData().topicosInteresse.forEach(function(item) {
+			that.getView().byId("inputTopicos").setValue(item.nome);
+			that.onAddTopico();
+		})
+		
+		this.getView().getModel("projeto").getData().habilidades.forEach(function(item) {
+			that.getView().byId("inputHabilidades").setValue(item.nome);
+			that.onAddHabilidade();
+		})
+		
+		this.getView().getModel("projeto").getData().participantes.forEach(function(item) {
+			that.getView().byId("inputParticipantes").setValue(item.nome + " " + item.sobrenome + " (" + item.email + ")");
+			that.onAddParticipante();
+		})
+		
+		const pId = this.getView().getModel("projeto").getData().id;
+		const conversa = jQuery.sap.syncGetJSON(`api/conversa/p=${pId}`).data;
+		
+		// carrega os models da conversa
+		const oModelConversa = new sap.ui.model.json.JSONModel();
+		oModelConversa.setData(conversa);
+		this.getView().setModel(oModelConversa, "conversa");
+		
+		const oModelMensagens = new sap.ui.model.json.JSONModel();
+		oModelMensagens.setData(conversa.mensagens.reverse());
+		this.getView().setModel(oModelMensagens, "mensagens");
+		
+		this.verb = "PUT";
 	},
 	
 	carregaModelosBase() {
@@ -257,11 +318,12 @@ sap.ui.define([
 		jQuery.sap.require("sap.m.MessageBox");
 		
 		//valida entradas
+		
 		const nome = this.getView().byId("nomeProjeto").getValue();
 		const descricao = this.getView().byId("descricaoProjeto").getValue();
 
 		if (nome == "" || descricao == "") {
-			sap.m.MessageBox.error("Preencher busca!", {title: "Erro"});
+			sap.m.MessageBox.error("Preencher informações do projeto!", {title: "Erro"});
 			bDialog.close();
 			return;
 		}
@@ -275,6 +337,12 @@ sap.ui.define([
 				habilidades: []
 		};
 		
+		if (this.verb == "PUT") {
+			oProjeto.id = this.getView().getModel("projeto").getData().id;
+			oProjeto.criador.id = this.getView().getModel("projeto").getData().criador.id;
+			
+		}
+		
 		this.getView().byId("panelTopicos").getContent().forEach((item) => {
 			oProjeto.topicosInteresse.push({id: null, nome: item.getProperty("text")});
 		});
@@ -287,17 +355,78 @@ sap.ui.define([
 		});
 		
 		const that = this;
+		if (that.verb == "POST") {
+			$.ajax({
+				method: "POST",
+				url: "/carbon/api/projeto/novo",
+				data: JSON.stringify(oProjeto),
+				dataType: "json",
+				contentType: 'application/json',
+				success: (oResult, oResponse) => {
+					const oConversa = {
+						projeto: {
+							id: oResult.id
+						},
+						mensagens: []
+					};
+					
+					$.ajax({
+						method: "POST",
+						url: "/carbon/api/conversa/novop",
+						data: JSON.stringify(oConversa),
+						dataType: "json",
+						contentType: 'application/json',
+						success: (oResult, oResponse) => {
+							bDialog.close();
+							that.getRouter().navTo("toHomepage");
+
+							sap.m.MessageToast.show("Projeto criado!");
+						}
+					})
+				}
+			});
+		} else {
+			$.ajax({
+				method: "PUT",
+				url: "/carbon/api/projeto/update",
+				data: JSON.stringify(oProjeto),
+				dataType: "json",
+				contentType: 'application/json',
+				success: (oResult, oResponse) => {
+					bDialog.close();
+					that.getRouter().navTo("toHomepage");
+
+					sap.m.MessageToast.show("Projeto atualizado!");
+				}
+			});
+		}
+	},
+	
+	onPostaComentario(oEvent) {
+		if (oEvent.getParameter("value") == "") {
+			sap.m.MessageBox.error("Preencher mensagem!", {title: "Erro"});
+			return;
+		}
+		
+		let mensagem = {
+			conversa: {id: this.getView().getModel("projeto").getData().conversa.id},
+			texto: oEvent.getParameter("value"),
+			remetente: {id: sap.ui.getCore().getModel("logado").getData().id}
+		}
+		
+		const that = this;
+		
 		$.ajax({
 			method: "POST",
-			url: "/carbon/api/projeto/novo",
-			data: JSON.stringify(oProjeto),
+			url: "/carbon/api/mensagem/novo",
+			data: JSON.stringify(mensagem),
 			dataType: "json",
 			contentType: 'application/json',
 			success: (oResult, oResponse) => {
-				sap.m.MessageToast.show("Projeto criado!");
-				
-				bDialog.close();
-				that.getRouter().navTo("toHomepage");
+				let aMensagens = that.getView().getModel("mensagens").getData().reverse();
+				aMensagens.push(oResult);
+				that.getView().getModel("mensagens").setData(aMensagens.reverse());
+				that.getView().invalidate();
 			}
 		});
 	}

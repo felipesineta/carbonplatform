@@ -25,11 +25,24 @@ public class ConversaController {
 	ConversaRepository conversaRepository;
 	
 	@Autowired
+	ProjetoController projetoController;
+	
+	@Autowired
 	MensagemRepository mensagemRepository;
+	
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public Iterable<Conversa> getAll() throws Exception {
+		return conversaRepository.findAll();
+	}
 	
 	@RequestMapping(value = "/c={conversaId}", method = RequestMethod.GET)
 	public Conversa getById(HttpServletRequest request, @PathVariable("conversaId") Long conversaId) throws Exception {
 		return conversaRepository.findById(conversaId).get();
+	}
+	
+	@RequestMapping(value = "/p={projetoId}", method = RequestMethod.GET)
+	public Conversa getByProjetoId(HttpServletRequest request, @PathVariable("projetoId") Long projetoId) throws Exception {
+		return conversaRepository.findOneByProjetoId(projetoId).get();
 	}
 
 	@RequestMapping(value = "/users/u1={user1Id}&&u2={user2Id}&&{novo}", method = RequestMethod.GET)
@@ -51,16 +64,6 @@ public class ConversaController {
 				throw e;
 			}
 		}
-		
-//		List<Mensagem> enviadas = mensagemRepository.findAllByOrigemIdAndDestinoUId(origemId, destinoUId);
-//		List<Mensagem> recebidas = mensagemRepository.findAllByOrigemIdAndDestinoUId(destinoUId, origemId);
-//		
-//		List<Mensagem> cheia = new ArrayList<Mensagem>();
-//		cheia.addAll(recebidas);
-//		cheia.addAll(enviadas);
-//		
-//		
-//		Collections.sort(cheia, new SortByTimestamp());
 	}
 	
 	@RequestMapping(value = "/users/u={userId}", method = RequestMethod.GET)
@@ -77,8 +80,9 @@ public class ConversaController {
 		return conversas;
 	}
 
-	@RequestMapping(value = "/novo", method = RequestMethod.POST)
-	public Conversa create(HttpServletRequest request, @RequestBody Conversa conversa) throws Exception {
+	@RequestMapping(value = "/novou", method = RequestMethod.POST)
+	public Conversa createU(HttpServletRequest request, @RequestBody Conversa conversa) throws Exception {
+		
 		Conversa existente = between(request, conversa.user1.id, conversa.user2.id, true);
 			
 		if (existente != null) {
@@ -87,6 +91,23 @@ public class ConversaController {
 		}
 		else {
 			conversaRepository.save(conversa);
+			return conversa;
+		}
+	}
+
+	@RequestMapping(value = "/novop", method = RequestMethod.POST)
+	public Conversa createP(HttpServletRequest request, @RequestBody Conversa conversa) throws Exception {
+		
+		Optional<Conversa> existente = conversaRepository.findOneByProjetoId(conversa.projeto.id);
+		
+		if (existente.isPresent()) {
+			Exception e = new Exception("Conversa para o projeto já existente!");
+			throw e;
+		}
+		else {
+			conversaRepository.save(conversa);
+			
+			projetoController.updateConversa(conversa.projeto.id, conversa);
 			return conversa;
 		}
 	}

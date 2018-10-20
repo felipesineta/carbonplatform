@@ -22,6 +22,9 @@ sap.ui.define([
 		case "Criar novo projeto":
 			this.getRouter().navTo("toNovoProjeto");
 			break;
+		case "Meus projetos":
+			this.getRouter().navTo("toProjetosAndamento");
+			break;
 		}
 	},
 

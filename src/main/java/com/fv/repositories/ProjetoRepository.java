@@ -6,4 +6,6 @@ import com.fv.models.Projeto;
 
 public interface ProjetoRepository extends CrudRepository<Projeto, Long> {
 
+	Iterable<Projeto> findAllByCriadorId(Long id);
+	Iterable<Projeto> findAllByParticipantesIdContains(Long id);
 }

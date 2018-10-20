@@ -51,18 +51,17 @@ public class Usuario extends BaseObject implements Serializable {
 	public String password = "";
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("usuarios")
+	@JsonIgnoreProperties({"usuarios", "projetos"})
 	@JoinTable(name = "TOPICO_INTERESSE_USUARIO", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "topicoInteresse_id", referencedColumnName = "id"))
 	public List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("usuarios")
+	@JsonIgnoreProperties({"usuarios", "projetos"})
 	@JoinTable(name = "HABILIDADE_USUARIO", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "habilidade_id", referencedColumnName = "id"))
 	public List<Habilidade> habilidades = new ArrayList<Habilidade>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("participantes")
-	@JoinTable(name = "PROJETO_USUARIO", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "projeto_id", referencedColumnName = "id"))
+	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "participantes")
+	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "criador", "participantes", "conversa"})
 	public List<Projeto> projetos = new ArrayList<Projeto>();
 	
 	public Usuario() {

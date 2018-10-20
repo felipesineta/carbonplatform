@@ -31,10 +31,10 @@ public class Habilidade extends BaseObject implements Serializable {
 	public String nome = null;
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "habilidades")
-	@JsonIgnoreProperties("habilidades")
+	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "projetos"})
 	public List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "habilidades")
-	@JsonIgnoreProperties("habilidades")
+	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "criador", "participantes", "conversa"})
 	public List<Projeto> projetos = new ArrayList<Projeto>();
 }

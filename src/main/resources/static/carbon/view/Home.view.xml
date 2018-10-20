@@ -13,16 +13,10 @@
 							<ImageContent src="sap-icon://add-document" />
 						</TileContent>
 					</GenericTile>
-	                <GenericTile class="marginTile tileSize" header="Projetos em andamento"
-						subheader="4" press="onPressTile">
+	                <GenericTile class="marginTile tileSize" header="Meus projetos"
+						subheader="" press="onPressTile">
 						<TileContent>
 							<ImageContent src="sap-icon://pushpin-on" />
-						</TileContent>
-					</GenericTile>
-	                <GenericTile class="marginTile tileSize" header="Histórico de projetos"
-						subheader="12" press="onPressTile">
-						<TileContent>
-							<ImageContent src="sap-icon://timesheet" />
 						</TileContent>
 					</GenericTile>
 	                <GenericTile class="marginTile tileSize" header="Busca avançada"

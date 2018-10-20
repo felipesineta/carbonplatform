@@ -88,6 +88,16 @@
 					"target": "projeto"
 				},
 				{
+					"pattern": "projeto/{projetoId}",
+					"name": "toShowProjeto",
+					"target": "projeto"
+				},
+				{
+					"pattern": "projetosa",
+					"name": "toProjetosAndamento",
+					"target": "projetosa"
+				},
+				{
 					"pattern": "notFound",
 					"name": "toNotFound",
 					"target": "notFound"
@@ -116,8 +126,13 @@
 				},
 				"projeto": {
 					"viewName": "Projeto",
+					"viewLevel": 3,
+					"viewId": "projeto"
+				},
+				"projetosa": {
+					"viewName": "ProjetosAndamento",
 					"viewLevel": 2,
-					"viewId": "rojeto"
+					"viewId": "projetosa"
 				},
 				"notFound": {
 					"viewName": "NotFound",

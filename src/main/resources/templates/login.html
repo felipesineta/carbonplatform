@@ -15,51 +15,15 @@
 		 <Page title="Plataforma Carbon - Login" style="text-align:center;">
             <core:HTML id="html" content="hello"  style="text-align:center;"/>
             <Image src="/carbon/app icon v2.png" height="224px" width="224px" visible="true" densityAware="false"/>
-			<form:Form width="100%" editable="true" visible="true" style="text-align:center;">
-                <form:title/>
-                <form:formContainers>
-                    <form:FormContainer visible="true">
-                        <form:formElements>
-                            <form:FormElement visible="true">
-                                <form:label>
-                                    <Label text="Nome de usuário" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
-                                </form:label>
-                                <form:fields>
-                                    <Input id="inputUsername" type="Text" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="0"/>
-                                </form:fields>
-                            </form:FormElement>
-                            <form:FormElement visible="true">
-                                <form:label>
-                                    <Label text="Senha" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
-                                </form:label>
-                                <form:fields>
-                                    <Input id="inputPassword" type="Password" showValueHelp="false" enabled="true" visible="true" width="auto" valueHelpOnly="false" maxLength="0"/>
-                                </form:fields>
-                            </form:FormElement>
-                            <form:FormElement visible="true">
-                                <form:label>
-                                    <Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
-                                </form:label>
-                                <form:fields>
-                                    <Button text="Entrar" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onLogin"/>
-                                </form:fields>
-                            </form:FormElement>
-                            <form:FormElement visible="true">
-                                <form:label>
-                                    <!-- <Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/> -->
-                                </form:label>
-                                <form:fields>
-                                    <Link text="Cadastrar" target="_self" press="onNewUser"/>
-                                </form:fields>
-                            </form:FormElement>
-                        </form:formElements>
-                        <form:title/>
-                    </form:FormContainer>
-                </form:formContainers>
-                <form:layout>
-                    <form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
-                </form:layout>
-            </form:Form>
+			<VBox>
+                <Label text="Nome de usuário:" design="Standard" width="300px" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                <Input id="inputUsername" type="Text" width="300px" showValueHelp="false" enabled="true" visible="true" valueHelpOnly="false" maxLength="0"/>
+                <Label text="Senha:" design="Standard" width="300px" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                <Input id="inputPassword" type="Password" width="300px" showValueHelp="false" enabled="true" visible="true" valueHelpOnly="false" maxLength="0"/>
+                <Label text="" design="Standard" width="300px" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                <Button text="Entrar" type="Default" iconFirst="true" width="150px" enabled="true" visible="true" iconDensityAware="false" press="onLogin"/>
+                <Link text="Cadastrar" target="_self" press="onNewUser"/>
+            </VBox>                    
 		 </Page>
 	  </App>
    </mvc:View>	
