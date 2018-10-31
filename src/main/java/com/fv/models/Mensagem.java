@@ -23,15 +23,47 @@ public class Mensagem extends BaseObject implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "mensagemId")
 	@SequenceGenerator(name = "mensagemId", sequenceName = "mensagemId", allocationSize = 1)
-	public Long id;
+	Long id;
 
 	@Column(name = "TEXTO", length = 1024)
-	public String texto;
+	private String texto;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	public Usuario remetente;
+	private Usuario remetente;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JsonIgnoreProperties({"mensagens"})
-    public Conversa conversa;
+	private Conversa conversa;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public Usuario getRemetente() {
+		return remetente;
+	}
+
+	public void setRemetente(Usuario remetente) {
+		this.remetente = remetente;
+	}
+
+	public Conversa getConversa() {
+		return conversa;
+	}
+
+	public void setConversa(Conversa conversa) {
+		this.conversa = conversa;
+	}
 }

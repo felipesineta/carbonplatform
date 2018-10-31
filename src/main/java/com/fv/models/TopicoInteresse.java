@@ -26,16 +26,48 @@ public class TopicoInteresse extends BaseObject implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "topicoInteresseId")
 	@SequenceGenerator(name = "topicoInteresseId", sequenceName = "topicoInteresseId", allocationSize = 1)
-	public Long id;
+	Long id;
 	
 	@Column(name = "NOME", length = 128)
-	public String nome = null;
+	private String nome = null;
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "topicosInteresse")
 	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "projetos"})
-	public List<Usuario> usuarios = new ArrayList<Usuario>();
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "topicosInteresse")
 	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "criador", "participantes", "conversa"})
-	public List<Projeto> projetos = new ArrayList<Projeto>();
+	private List<Projeto> projetos = new ArrayList<Projeto>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
 }

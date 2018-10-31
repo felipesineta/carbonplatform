@@ -25,6 +25,9 @@ sap.ui.define([
 		case "Meus projetos":
 			this.getRouter().navTo("toProjetosAndamento");
 			break;
+		case "Busca avançada":
+			this.getRouter().navTo("toBusca");
+			break;
 		}
 	},
 
@@ -36,9 +39,9 @@ sap.ui.define([
 			{
 				title: "Confirmação",
 				onClose: null,
-				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+				actions: ["Sim", "Não"],
 				onClose: function(oAction) {
-					if (oAction == sap.m.MessageBox.Action.YES) {
+					if (oAction == "Sim") {
 						window.location = `${window.location.origin}/carbon/logout`;
 					}
 				}

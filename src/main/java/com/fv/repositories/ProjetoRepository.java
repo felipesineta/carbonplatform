@@ -8,4 +8,7 @@ public interface ProjetoRepository extends CrudRepository<Projeto, Long> {
 
 	Iterable<Projeto> findAllByCriadorId(Long id);
 	Iterable<Projeto> findAllByParticipantesIdContains(Long id);
+
+	Iterable<Projeto> findAllByHabilidadesIdContains(Long id);
+	Iterable<Projeto> findAllByTopicosInteresseIdContains(Long id);
 }

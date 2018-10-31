@@ -24,4 +24,6 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 	Page<Usuario> findAllBySobrenomeContainsAndEmailContains(String sobrenome, String email, Pageable page);
 	Page<Usuario> findAllByNomeContainsAndSobrenomeContainsAndEmailContains(String nome, String sobrenome, String email, Pageable page);
 
+	Iterable<Usuario> findAllByHabilidadesIdContains(Long id);
+	Iterable<Usuario> findAllByTopicosInteresseIdContains(Long id);
 }

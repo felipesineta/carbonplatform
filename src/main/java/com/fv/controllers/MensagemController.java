@@ -35,15 +35,15 @@ public class MensagemController {
 	public Mensagem create(HttpServletRequest request, @RequestBody Mensagem mensagem) throws Exception {
 		mensagemRepository.save(mensagem);
 		
-		Conversa conversa = conversaRepository.findById(mensagem.conversa.id).get();
+		Conversa conversa = conversaRepository.findById(mensagem.getConversa().getId()).get();
 		
-		List<Mensagem> mensagens = conversa.mensagens;
+		List<Mensagem> mensagens = conversa.getMensagens();
 		mensagens.add(mensagem);
-		conversa.mensagens = mensagens;
+		conversa.setMensagens(mensagens);
 		
 		conversaRepository.save(conversa);
 		
-		return mensagemRepository.findById(mensagem.id).get();
+		return mensagemRepository.findById(mensagem.getId()).get();
 	}
 
 }

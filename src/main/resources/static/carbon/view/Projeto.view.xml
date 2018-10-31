@@ -30,12 +30,10 @@
 		                                <Label text="Tópicos de interesse: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
 		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
 					                		<items>
-							                	<Input id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" suggestionItems="{topicos>/}" >
-													<suggestionItems>
-														<core:Item text="{topicos>nome}" />
-													</suggestionItems>
-												</Input>
-												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
+							                	<ComboBox id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" items="{topicos>/}" >
+													<core:Item text="{topicos>nome}" key="{topicos>id}"/>
+												</ComboBox>
+												<Button id="btnTopicos" text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
 											</items>
 					                		<layoutData/>
 					           			</HBox>
@@ -44,12 +42,10 @@
 		                                <Label text="Habilidades desejadas: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
 		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
 					                		<items>
-							                	<Input id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" suggestionItems="{habilidades>/}" >
-													<suggestionItems>
-														<core:Item text="{habilidades>nome}" />
-													</suggestionItems>
-												</Input>
-												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
+							                	<ComboBox id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" items="{habilidades>/}" >
+													<core:Item text="{habilidades>nome}" key="{habilidades>id}"/>
+												</ComboBox>
+												<Button id="btnHabilidades" text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
 											</items>
 					                		<layoutData/>
 					           			</HBox>
@@ -58,12 +54,10 @@
 		                                <Label text="Participantes: " design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
 		                                <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
 					                		<items>
-							                	<Input id="inputParticipantes" class="campoBusca" type="Text" placeholder="Buscar usuário..." showSuggestion="true" suggestionItems="{usuarios>/}" >
-													<suggestionItems>
-														<core:Item text="{usuarios>nome} {usuarios>sobrenome} ({usuarios>email})" />
-													</suggestionItems>
-												</Input>
-												<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddParticipante"/>
+							                	<ComboBox id="inputParticipantes" class="campoBusca" type="Text" placeholder="Buscar usuário..." showSuggestion="true" items="{usuarios>/}" >
+													<core:Item text="{usuarios>nome} {usuarios>sobrenome} ({usuarios>email})" key="{usuarios>id}"/>
+												</ComboBox>
+												<Button id="btnParticipantes" text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddParticipante"/>
 											</items>
 					                		<layoutData/>
 					           			</HBox>
@@ -95,7 +89,7 @@
                                     </List>
                                 </content>
                             </ScrollContainer>
-                            <FeedInput showIcon="true" icon="" placeholder="Escreva um comentário..." enabled="true" visible="true" maxLength="0" buttonTooltip="Enviar" post="onPostaComentario"/>
+                            <FeedInput id="feedInput" showIcon="false" icon="" placeholder="Escreva um comentário..." enabled="true" visible="true" maxLength="0" buttonTooltip="Enviar" post="onPostaComentario"/>
                         </content>
                     </IconTabFilter>
                 </items>
@@ -104,8 +98,10 @@
         <footer>
             <OverflowToolbar width="100%" height="auto" design="Auto" enabled="true" visible="true">
                 <content>
+                    <Button text="" Type="Transparent"/>
                     <ToolbarSpacer width=""/>
                     <Button id="btnRodape" text="" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSalvaProjeto"/>
+                    <Button id="btnRodape2" text="Pedir para participar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="false" iconDensityAware="false" press="onPedeParticipacao"/>
                 </content>
             </OverflowToolbar>
         </footer>

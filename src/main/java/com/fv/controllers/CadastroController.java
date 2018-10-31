@@ -30,20 +30,20 @@ public class CadastroController {
 
 	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public Usuario cadastro(HttpServletRequest request, @RequestBody Usuario reqUser) throws Exception {
-		Optional<Usuario> optUser = usuarioRepository.findByUsername(reqUser.username);
+		Optional<Usuario> optUser = usuarioRepository.findByUsername(reqUser.getUsername());
 		
 		if (optUser.isPresent()) {
 			Exception e = new Exception("Nome de usuário já em uso.");
 			throw e;
 		} else {
-			optUser = usuarioRepository.findByEmail(reqUser.email);
+			optUser = usuarioRepository.findByEmail(reqUser.getEmail());
 			
 			if (optUser.isPresent()) {
 				Exception e = new Exception("E-mail já cadastrado.");
 				throw e;
 			} else {
-				String unencodedPassword = reqUser.password;
-				reqUser.password = passwordEncoder.encode(reqUser.password);
+				String unencodedPassword = reqUser.getPassword();
+				reqUser.setPassword( passwordEncoder.encode(reqUser.getPassword()));
 				reqUser.createdBy = "system";
 				usuarioRepository.save(reqUser);
 				

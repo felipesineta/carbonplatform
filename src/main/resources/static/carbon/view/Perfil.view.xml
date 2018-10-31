@@ -21,11 +21,9 @@
                 <content>
                 	<HBox alignItems="Stretch" direction="Row" fitContainer="false" width="auto" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
                 		<items>
-		                	<Input id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" suggestionItems="{topicos>/}" >
-								<suggestionItems>
-									<core:Item text="{topicos>nome}" />
-								</suggestionItems>
-							</Input>
+		                	<ComboBox id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" items="{topicos>/}" >
+								<core:Item text="{topicos>nome}" key="{topicos>id}"/>
+							</ComboBox>
 							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
 						</items>
                 		<layoutData/>
@@ -37,11 +35,9 @@
                 <content>
                     <HBox alignItems="Stretch" direction="Row" fitContainer="false" width="auto" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false">
                 		<items>
-		                	<Input id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" suggestionItems="{habilidades>/}" >
-								<suggestionItems>
-									<core:Item text="{habilidades>nome}" />
-								</suggestionItems>
-							</Input>
+		                	<ComboBox id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" items="{habilidades>/}" >
+								<core:Item text="{habilidades>nome}" key="{habilidades/id}"/>
+							</ComboBox>
 							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
 						</items>
                 		<layoutData/>

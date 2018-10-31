@@ -83,7 +83,7 @@ public class ConversaController {
 	@RequestMapping(value = "/novou", method = RequestMethod.POST)
 	public Conversa createU(HttpServletRequest request, @RequestBody Conversa conversa) throws Exception {
 		
-		Conversa existente = between(request, conversa.user1.id, conversa.user2.id, true);
+		Conversa existente = between(request, conversa.getUser1().getId(), conversa.getUser2().getId(), true);
 			
 		if (existente != null) {
 			Exception e = new Exception("Conversa entre usuários já existente!");
@@ -98,7 +98,7 @@ public class ConversaController {
 	@RequestMapping(value = "/novop", method = RequestMethod.POST)
 	public Conversa createP(HttpServletRequest request, @RequestBody Conversa conversa) throws Exception {
 		
-		Optional<Conversa> existente = conversaRepository.findOneByProjetoId(conversa.projeto.id);
+		Optional<Conversa> existente = conversaRepository.findOneByProjetoId(conversa.getProjeto().getId());
 		
 		if (existente.isPresent()) {
 			Exception e = new Exception("Conversa para o projeto já existente!");
@@ -107,7 +107,7 @@ public class ConversaController {
 		else {
 			conversaRepository.save(conversa);
 			
-			projetoController.updateConversa(conversa.projeto.id, conversa);
+			projetoController.updateConversa(conversa.getProjeto().getId(), conversa);
 			return conversa;
 		}
 	}

@@ -220,6 +220,11 @@ sap.ui.define([
 			contentType: 'application/json',
 			success: (oResult, oResponse) => {
 				dialog.close();
+				
+				const modelUsuario = new sap.ui.model.json.JSONModel();
+				modelUsuario.setData(oResult);
+				sap.ui.getCore().setModel(modelUsuario, 'logado');
+				
 				that.getRouter().navTo("toHomepage");
 				sap.m.MessageToast.show("Perfil atualizado com sucesso!");
 			}

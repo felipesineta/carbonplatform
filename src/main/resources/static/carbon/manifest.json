@@ -73,6 +73,11 @@
 					"target": "perfil"
 				},
 				{
+					"pattern": "showUsuario/{usuarioId}",
+					"name": "toShowUsuario",
+					"target": "perfil"
+				},
+				{
 					"pattern": "conversas",
 					"name": "toConversas",
 					"target": "conversas"
@@ -93,9 +98,19 @@
 					"target": "projeto"
 				},
 				{
+					"pattern": "projeto/public/{projetoId}",
+					"name": "toShowProjetoPublic",
+					"target": "projeto"
+				},
+				{
 					"pattern": "projetosa",
 					"name": "toProjetosAndamento",
 					"target": "projetosa"
+				},
+				{
+					"pattern": "busca",
+					"name": "toBusca",
+					"target": "busca"
 				},
 				{
 					"pattern": "notFound",
@@ -126,13 +141,18 @@
 				},
 				"projeto": {
 					"viewName": "Projeto",
-					"viewLevel": 3,
+					"viewLevel": 20,
 					"viewId": "projeto"
 				},
 				"projetosa": {
 					"viewName": "ProjetosAndamento",
 					"viewLevel": 2,
 					"viewId": "projetosa"
+				},
+				"busca": {
+					"viewName": "Busca",
+					"viewLevel": 4,
+					"viewId": "busca"
 				},
 				"notFound": {
 					"viewName": "NotFound",

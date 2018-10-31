@@ -28,19 +28,59 @@ public class Conversa extends BaseObject implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "conversaId")
 	@SequenceGenerator(name = "conversaId", sequenceName = "conversaId", allocationSize = 1)
-	public Long id;
+	Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	public Usuario user1;
+	private Usuario user1;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	public Usuario user2;
+	private Usuario user2;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "projeto_id")
 	@JsonIgnoreProperties({"conversa"})
-	public Projeto projeto;
+	private Projeto projeto;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "conversa", orphanRemoval = true)
-	public List<Mensagem> mensagens = new ArrayList<Mensagem>();
+	private List<Mensagem> mensagens = new ArrayList<Mensagem>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Usuario getUser1() {
+		return user1;
+	}
+
+	public void setUser1(Usuario user1) {
+		this.user1 = user1;
+	}
+
+	public Usuario getUser2() {
+		return user2;
+	}
+
+	public void setUser2(Usuario user2) {
+		this.user2 = user2;
+	}
+
+	public Projeto getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
+	public List<Mensagem> getMensagens() {
+		return mensagens;
+	}
+
+	public void setMensagens(List<Mensagem> mensagens) {
+		this.mensagens = mensagens;
+	}
 }

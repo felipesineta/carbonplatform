@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fv.models.Habilidade;
+import com.fv.models.Projeto;
 import com.fv.models.TopicoInteresse;
 import com.fv.models.Usuario;
 import com.fv.repositories.HabilidadeRepository;
+import com.fv.repositories.ProjetoRepository;
 import com.fv.repositories.TopicoInteresseRepository;
 import com.fv.repositories.UsuarioRepository;
 
@@ -27,6 +29,9 @@ public class UsuarioController {
 	
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	ProjetoRepository projetoRepository;
 	
 	@Autowired
 	TopicoInteresseRepository topicoInteresseRepository;
@@ -74,19 +79,49 @@ public class UsuarioController {
 		Usuario user = reqUser;
 		
 		List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
-		for (TopicoInteresse t : reqUser.topicosInteresse) {
-			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.nome).get());
+		for (TopicoInteresse t : reqUser.getTopicosInteresse()) {
+			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.getNome()).get());
 		}
-		user.topicosInteresse = topicosInteresse;
+		user.setTopicosInteresse(topicosInteresse);
 		
 		List<Habilidade> habilidades = new ArrayList<Habilidade>();
-		for (Habilidade h : reqUser.habilidades) {
-			habilidades.add(habilidadeRepository.findOneByNome(h.nome).get());
+		for (Habilidade h : reqUser.getHabilidades()) {
+			habilidades.add(habilidadeRepository.findOneByNome(h.getNome()).get());
 		}
-		user.habilidades = habilidades;
+		user.setHabilidades(habilidades);
 		
 		
 		usuarioRepository.save(user);
 		return user;
+	}
+	
+	@RequestMapping(value = "/busca/p={projetoId}", method = RequestMethod.GET)
+	public Iterable<Usuario> searchByProjeto(@PathVariable("projetoId") Long projetoId) throws Exception {
+		Projeto projeto = projetoRepository.findById(projetoId).get();
+
+		List<Habilidade> habilidadesProjeto = projeto.getHabilidades();
+		List<TopicoInteresse> topicosProjeto = projeto.getTopicosInteresse();
+		
+		List<Usuario> listaFull = new ArrayList<Usuario>();
+		
+		for (Habilidade h : habilidadesProjeto) {
+			Iterable<Usuario> usuariosHab = usuarioRepository.findAllByHabilidadesIdContains(h.getId());
+			for (Usuario u : usuariosHab) {
+				if (!listaFull.contains(u) && projeto.getCriador().getId() != u.getId()) {
+					listaFull.add(u);
+				}
+			}
+		}
+		
+		for (TopicoInteresse t : topicosProjeto) {
+			Iterable<Usuario> usuariosTop = usuarioRepository.findAllByTopicosInteresseIdContains(t.getId());
+			for (Usuario u : usuariosTop) {
+				if (!listaFull.contains(u) && projeto.getCriador().getId() != u.getId()) {
+					listaFull.add(u);
+				}
+			}
+		}
+		
+		return listaFull;
 	}
 }

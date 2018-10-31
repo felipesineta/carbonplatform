@@ -1,0 +1,70 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="carbon.controller.Busca" xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    <Page showHeader="true" title="Busca avançada" showFooter="false" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <form:Form width="100%" editable="true" visible="true">
+                <form:title>
+                    <core:Title text="Filtros de busca" level="Auto"/>
+                </form:title>
+                <form:formContainers>
+                    <form:FormContainer visible="true">
+                        <form:formElements>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="Tipo de busca" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <RadioButtonGroup id="rbgroupFiltro">
+                                    	<RadioButton groupName="selecaoFiltro" text="Buscar projetos que tenham afinidade comigo"/>
+                                    	<RadioButton groupName="selecaoFiltro" text="Buscar possíveis participantes para o projeto selecionado"/>
+                                    </RadioButtonGroup>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <ComboBox id="cboxProjeto" editable="true" enabled="true" visible="true" width="400px" valueState="None" maxWidth="100%" items="{meusprojetos>/}">
+                                        <items>
+                                            <core:Item text="{meusprojetos>nome}" key="{meusprojetos>id}"/>
+                                        </items>
+                                    </ComboBox>
+                                </form:fields>
+                            </form:FormElement>
+                            <form:FormElement visible="true">
+                                <form:label>
+                                    <Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </form:label>
+                                <form:fields>
+                                    <Button text="Buscar" type="Emphasized" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" width="200px" press="onRealizaBusca"/>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                        <form:title/>
+                    </form:FormContainer>
+                </form:formContainers>
+                <form:layout>
+                    <form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
+                </form:layout>
+            </form:Form>
+            
+            <List mode="SingleSelectMaster" width="100%" headerText="Resultados da busca" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true" growingThreshold="20" growingScrollToLoad="true" visible="true" items="{resultadosbusca>/}" itemPress="onSelecionaReultado">
+                <infoToolbar/>
+                <headerToolbar/>
+                <items>
+                    <ObjectListItem title="{resultadosbusca>nome}" number="{resultadosbusca>afinidade}%" numberUnit="Afinidade" numberState="None" type="Active" selected="false" showMarkers="false">
+                        <attributes>
+                        	<ObjectAttribute text="{resultadosbusca>id}" visible="false"/>
+                        </attributes>
+                        <firstStatus/>
+                        <secondStatus/>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </content>
+        <footer/>
+        <headerContent/>
+        <subHeader/>
+        <customHeader/>
+    </Page>
+</mvc:View>

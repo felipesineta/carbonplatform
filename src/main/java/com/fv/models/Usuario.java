@@ -31,38 +31,38 @@ public class Usuario extends BaseObject implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "usuarioId")
 	@SequenceGenerator(name = "usuarioId", sequenceName = "usuarioId", allocationSize = 1)
-	public Long id;
+	Long id;
 	
 	@Column(name = "NOME", length = 128)
-	public String nome = null;
+	private String nome = null;
 
 	@Column(name = "SOBRENOME", length = 128)
-	public String sobrenome = null;
+	private String sobrenome = null;
 
 	@Index(name = "IDX_EMAIL")
 	@Column(name = "EMAIL", length = 100)
-	public String email = null;
+	private String email = null;
 
 	@Index(name = "IDX_USERNAME")
 	@Column(name = "USERNAME", length = 100, nullable = false)
-	public String username = null;
+	private String username = null;
 	
 	@Column(name = "PASSWORD", length = 128)
-	public String password = "";
+	private String password = "";
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"usuarios", "projetos"})
 	@JoinTable(name = "TOPICO_INTERESSE_USUARIO", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "topicoInteresse_id", referencedColumnName = "id"))
-	public List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
+	private List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"usuarios", "projetos"})
 	@JoinTable(name = "HABILIDADE_USUARIO", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "habilidade_id", referencedColumnName = "id"))
-	public List<Habilidade> habilidades = new ArrayList<Habilidade>();
+	private List<Habilidade> habilidades = new ArrayList<Habilidade>();
 
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "participantes")
 	@JsonIgnoreProperties({"topicosInteresse", "habilidades", "criador", "participantes", "conversa"})
-	public List<Projeto> projetos = new ArrayList<Projeto>();
+	private List<Projeto> projetos = new ArrayList<Projeto>();
 	
 	public Usuario() {
 		
@@ -78,5 +78,77 @@ public class Usuario extends BaseObject implements Serializable {
 		this.topicosInteresse = user.topicosInteresse;
 		this.habilidades = user.habilidades;
 		this.projetos = user.projetos;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<TopicoInteresse> getTopicosInteresse() {
+		return topicosInteresse;
+	}
+
+	public void setTopicosInteresse(List<TopicoInteresse> topicosInteresse) {
+		this.topicosInteresse = topicosInteresse;
+	}
+
+	public List<Habilidade> getHabilidades() {
+		return habilidades;
+	}
+
+	public void setHabilidades(List<Habilidade> habilidades) {
+		this.habilidades = habilidades;
+	}
+
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
 	}
 }

@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	                .security
 	                .core
 	                .userdetails
-	                .User(user.get().email, user.get().password, new HashSet<>());
+	                .User(user.get().getEmail(), user.get().getPassword(), new HashSet<>());
 	    }
 	}
 }

@@ -9,6 +9,7 @@ sap.ui.define([
 		const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		oRouter.getRoute("toNovoProjeto").attachPatternMatched(this.create, this);
 		oRouter.getRoute("toShowProjeto").attachPatternMatched(this.show, this);
+		oRouter.getRoute("toShowProjetoPublic").attachPatternMatched(this.showPublic, this);
 	},
 	
 	create() {
@@ -17,18 +18,30 @@ sap.ui.define([
 		this.getView().byId("abaComentarios").setVisible(false);
 
 		this.getView().byId("nomeProjeto").setValue("");
+		this.getView().byId("nomeProjeto").setEnabled(true);
 		this.getView().byId("descricaoProjeto").setValue("");
+		this.getView().byId("descricaoProjeto").setEnabled(true);
+
 		this.getView().byId("inputTopicos").setValue("");
+		this.getView().byId("inputTopicos").setVisible(true);
+		this.getView().byId("btnTopicos").setVisible(true);
 		this.getView().byId("panelTopicos").destroyContent();
 		this.getView().byId("inputHabilidades").setValue("");
+		this.getView().byId("inputHabilidades").setVisible(true);
+		this.getView().byId("btnHabilidades").setVisible(true);
 		this.getView().byId("panelHabilidades").destroyContent();
 		this.getView().byId("inputParticipantes").setValue("");
+		this.getView().byId("inputParticipantes").setVisible(true);
+		this.getView().byId("btnParticipantes").setVisible(true);
 		this.getView().byId("panelParticipantes").destroyContent();
 		
 		this.carregaModelosBase();
 
 		this.getView().byId("btnRodape").setText("Criar");
 		this.getView().byId("tituloPage").setTitle("Novo projeto");
+
+		this.getView().byId("btnRodape").setVisible(true);
+		this.getView().byId("btnRodape2").setVisible(false);
 		
 		this.verb = "POST";
 	},
@@ -36,22 +49,36 @@ sap.ui.define([
 	show(oEvent) {
 		const projetoId = oEvent.getParameter('arguments').projetoId;
 		
-		// carrega os topicos de interesse nas sugestoes
 		const oModelProjeto = new sap.ui.model.json.JSONModel();
 		oModelProjeto.setData(jQuery.sap.syncGetJSON(`api/projeto/p=${projetoId}`).data);
 		this.getView().setModel(oModelProjeto, "projeto");
+		
+		let boolDono;
+		if (this.getView().getModel("projeto").getData().criador.id != sap.ui.getCore().getModel("logado").getData().id) {
+			boolDono = false;
+		} else {
+			boolDono = true;
+		}
 		
 		this.getView().byId("abaComentarios").setVisible(true);
 		this.getView().byId("tabBar").setSelectedKey("1");
 		
 		this.getView().byId("nomeProjeto").setValue(oModelProjeto.getData().nome);
+		this.getView().byId("nomeProjeto").setEnabled(boolDono);
 		this.getView().byId("descricaoProjeto").setValue(oModelProjeto.getData().descricao);
+		this.getView().byId("descricaoProjeto").setEnabled(boolDono);
 		
 		this.getView().byId("inputTopicos").setValue("");
+		this.getView().byId("inputTopicos").setVisible(boolDono);
+		this.getView().byId("btnTopicos").setVisible(boolDono);
 		this.getView().byId("panelTopicos").destroyContent();
 		this.getView().byId("inputHabilidades").setValue("");
+		this.getView().byId("inputHabilidades").setVisible(boolDono);
+		this.getView().byId("btnHabilidades").setVisible(boolDono);
 		this.getView().byId("panelHabilidades").destroyContent();
 		this.getView().byId("inputParticipantes").setValue("");
+		this.getView().byId("inputParticipantes").setVisible(boolDono);
+		this.getView().byId("btnParticipantes").setVisible(boolDono);
 		this.getView().byId("panelParticipantes").destroyContent();
 		
 		this.carregaModelosBase();
@@ -63,17 +90,32 @@ sap.ui.define([
 		this.getView().getModel("projeto").getData().topicosInteresse.forEach(function(item) {
 			that.getView().byId("inputTopicos").setValue(item.nome);
 			that.onAddTopico();
-		})
+		});
+		if (this.getView().getModel("projeto").getData().criador.id != sap.ui.getCore().getModel("logado").getData().id) {
+			this.getView().byId("panelTopicos").getContent().forEach(function(item) {
+				item.setEditable(boolDono);
+			});
+		}
 		
 		this.getView().getModel("projeto").getData().habilidades.forEach(function(item) {
 			that.getView().byId("inputHabilidades").setValue(item.nome);
 			that.onAddHabilidade();
-		})
+		});
+		if (this.getView().getModel("projeto").getData().criador.id != sap.ui.getCore().getModel("logado").getData().id) {
+			this.getView().byId("panelHabilidades").getContent().forEach(function(item) {
+				item.setEditable(boolDono);
+			});
+		}
 		
 		this.getView().getModel("projeto").getData().participantes.forEach(function(item) {
 			that.getView().byId("inputParticipantes").setValue(item.nome + " " + item.sobrenome + " (" + item.email + ")");
 			that.onAddParticipante();
-		})
+		});
+		if (this.getView().getModel("projeto").getData().criador.id != sap.ui.getCore().getModel("logado").getData().id) {
+			this.getView().byId("panelParticipantes").getContent().forEach(function(item) {
+				item.setEditable(boolDono);
+			});
+		}
 		
 		const pId = this.getView().getModel("projeto").getData().id;
 		const conversa = jQuery.sap.syncGetJSON(`api/conversa/p=${pId}`).data;
@@ -86,8 +128,91 @@ sap.ui.define([
 		const oModelMensagens = new sap.ui.model.json.JSONModel();
 		oModelMensagens.setData(conversa.mensagens.reverse());
 		this.getView().setModel(oModelMensagens, "mensagens");
+
+		this.getView().byId("feedInput").setEnabled(true);
+
+		if (this.getView().getModel("projeto").getData().criador.id != sap.ui.getCore().getModel("logado").getData().id) {
+			this.getView().byId("btnRodape").setVisible(false);
+		} else {
+			this.getView().byId("btnRodape").setVisible(true);
+		}
+		this.getView().byId("btnRodape2").setVisible(false);
 		
 		this.verb = "PUT";
+	},
+	
+	showPublic(oEvent) {
+		const projetoId = oEvent.getParameter('arguments').projetoId;
+		
+		const oModelProjeto = new sap.ui.model.json.JSONModel();
+		oModelProjeto.setData(jQuery.sap.syncGetJSON(`api/projeto/p=${projetoId}`).data);
+		this.getView().setModel(oModelProjeto, "projeto");
+		
+		this.getView().byId("abaComentarios").setVisible(true);
+		this.getView().byId("tabBar").setSelectedKey("1");
+
+		this.getView().byId("nomeProjeto").setValue(oModelProjeto.getData().nome);
+		this.getView().byId("nomeProjeto").setEnabled(false);
+		this.getView().byId("descricaoProjeto").setValue(oModelProjeto.getData().descricao);
+		this.getView().byId("descricaoProjeto").setEnabled(false);
+
+		this.getView().byId("inputTopicos").setVisible(false);
+		this.getView().byId("panelTopicos").destroyContent();
+		this.getView().byId("btnTopicos").setVisible(false);
+		this.getView().byId("inputHabilidades").setVisible(false);
+		this.getView().byId("btnHabilidades").setVisible(false);
+		this.getView().byId("panelHabilidades").destroyContent();
+		this.getView().byId("inputParticipantes").setVisible(false);
+		this.getView().byId("btnParticipantes").setVisible(false);
+		this.getView().byId("panelParticipantes").destroyContent();
+		
+		this.carregaModelosBase();
+		
+		this.getView().byId("btnRodape").setText("Salvar");
+		this.getView().byId("tituloPage").setTitle("Projeto");
+
+		const that = this;
+		this.getView().getModel("projeto").getData().topicosInteresse.forEach(function(item) {
+			that.getView().byId("inputTopicos").setValue(item.nome);
+			that.onAddTopico();
+		});
+		this.getView().byId("panelTopicos").getContent().forEach(function(item) {
+			item.setEditable(false);
+		});
+		
+		this.getView().getModel("projeto").getData().habilidades.forEach(function(item) {
+			that.getView().byId("inputHabilidades").setValue(item.nome);
+			that.onAddHabilidade();
+		});
+		this.getView().byId("panelHabilidades").getContent().forEach(function(item) {
+			item.setEditable(false);
+		});
+		
+		this.getView().getModel("projeto").getData().participantes.forEach(function(item) {
+			that.getView().byId("inputParticipantes").setValue(item.nome + " " + item.sobrenome + " (" + item.email + ")");
+			that.onAddParticipante();
+		});
+		this.getView().byId("panelParticipantes").getContent().forEach(function(item) {
+			item.setEditable(false);
+		});
+		
+		const pId = this.getView().getModel("projeto").getData().id;
+		const conversa = jQuery.sap.syncGetJSON(`api/conversa/p=${pId}`).data;
+		
+		// carrega os models da conversa
+		const oModelConversa = new sap.ui.model.json.JSONModel();
+		oModelConversa.setData(conversa);
+		this.getView().setModel(oModelConversa, "conversa");
+		
+		const oModelMensagens = new sap.ui.model.json.JSONModel();
+		oModelMensagens.setData(conversa.mensagens.reverse());
+		this.getView().setModel(oModelMensagens, "mensagens");
+
+		this.getView().byId("feedInput").setEnabled(false);
+		
+		this.getView().byId("btnRodape").setVisible(false);
+		this.getView().byId("btnRodape2").setVisible(true);
+		this.verb = "---";
 	},
 	
 	carregaModelosBase() {

@@ -53,37 +53,29 @@ public class ProjetoController {
 		
 		// lê os tópicos de interesse por nome e coloca o id
 		List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
-		for (TopicoInteresse t : reqProjeto.topicosInteresse) {
-			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.nome).get());
+		for (TopicoInteresse t : reqProjeto.getTopicosInteresse()) {
+			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.getNome()).get());
 		}
-		projeto.topicosInteresse = topicosInteresse;
+		projeto.setTopicosInteresse(topicosInteresse);
 
 		// lê as habilidades por nome e coloca o id
 		List<Habilidade> habilidades = new ArrayList<Habilidade>();
-		for (Habilidade h : reqProjeto.habilidades) {
-			habilidades.add(habilidadeRepository.findOneByNome(h.nome).get());
+		for (Habilidade h : reqProjeto.getHabilidades()) {
+			habilidades.add(habilidadeRepository.findOneByNome(h.getNome()).get());
 		}
-		projeto.habilidades = habilidades;
+		projeto.setHabilidades(habilidades);
 
 		// lê os participantes por email e coloca o id
 		List<Usuario> participantes = new ArrayList<Usuario>();
-		for (Usuario p : reqProjeto.participantes) {
-			Usuario part = usuarioRepository.findByEmail(p.email).get();
-			part.projetos.clear();
+		for (Usuario p : reqProjeto.getParticipantes()) {
+			Usuario part = usuarioRepository.findByEmail(p.getEmail()).get();
+			part.getProjetos().clear();
 			participantes.add(part);
 		}
-		projeto.participantes = participantes;
+		projeto.setParticipantes(participantes);
 		
 		projetoRepository.save(projeto);
 
-//		if (projeto.conversa == null) {
-//			Conversa conversa = new Conversa();
-//			conversa.projeto = projeto;
-//			projeto.conversa = conversa;
-//			projetoRepository.save(projeto);
-////			conversaRepository.save(conversa);
-//		}
-		
 		return projeto;
 	}
 	
@@ -95,47 +87,38 @@ public class ProjetoController {
 		
 		// lê os tópicos de interesse por nome e coloca o id
 		List<TopicoInteresse> topicosInteresse = new ArrayList<TopicoInteresse>();
-		for (TopicoInteresse t : reqProjeto.topicosInteresse) {
-			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.nome).get());
+		for (TopicoInteresse t : reqProjeto.getTopicosInteresse()) {
+			topicosInteresse.add(topicoInteresseRepository.findOneByNome(t.getNome()).get());
 		}
-		projeto.topicosInteresse = topicosInteresse;
+		projeto.setTopicosInteresse(topicosInteresse);
 
 		// lê as habilidades por nome e coloca o id
 		List<Habilidade> habilidades = new ArrayList<Habilidade>();
-		for (Habilidade h : reqProjeto.habilidades) {
-			habilidades.add(habilidadeRepository.findOneByNome(h.nome).get());
+		for (Habilidade h : reqProjeto.getHabilidades()) {
+			habilidades.add(habilidadeRepository.findOneByNome(h.getNome()).get());
 		}
-		projeto.habilidades = habilidades;
+		projeto.setHabilidades(habilidades);
 
 		// lê os participantes por email e coloca o id
 		List<Usuario> participantes = new ArrayList<Usuario>();
-		for (Usuario p : reqProjeto.participantes) {
-			Usuario part = usuarioRepository.findByEmail(p.email).get();
-			part.projetos.clear();
+		for (Usuario p : reqProjeto.getParticipantes()) {
+			Usuario part = usuarioRepository.findByEmail(p.getEmail()).get();
+			part.getProjetos().clear();
 			participantes.add(part);
 		}
-		projeto.participantes = participantes;
+		projeto.setParticipantes(participantes);
 		
-		Conversa conversa = conversaRepository.findOneByProjetoId(projeto.id).get();
-		projeto.conversa = conversa;
+		Conversa conversa = conversaRepository.findOneByProjetoId(projeto.getId()).get();
+		projeto.setConversa(conversa);
 		
 		projetoRepository.save(projeto);
 
-//		if (projeto.conversa == null) {
-//			Conversa conversa = new Conversa();
-//			conversa.projeto = projeto;
-//			projeto.conversa = conversa;
-//			projetoRepository.save(projeto);
-////			conversaRepository.save(conversa);
-//		}
-		
 		return projeto;
 	}
 	
 	public void updateConversa(Long projetoId, Conversa conversa) {
 		Projeto projeto = projetoRepository.findById(projetoId).get();
-//		conversa.projeto = null;
-		projeto.conversa = conversa;
+		projeto.setConversa(conversa);
 		projetoRepository.save(projeto);
 	}
 	
@@ -152,10 +135,47 @@ public class ProjetoController {
 		return todos;
 	}
 	
+	@RequestMapping(value = "/c={userId}", method = RequestMethod.GET)
+	public Iterable<Projeto> getFromCriador(@PathVariable("userId") Long userId) throws Exception {
+		Iterable<Projeto> dono = projetoRepository.findAllByCriadorId(userId);
+		
+		return dono;
+	}
+	
 	@RequestMapping(value = "/p={projetoId}", method = RequestMethod.GET)
 	public Projeto getOne(@PathVariable("projetoId") Long projetoId) throws Exception {
 		Projeto projeto = projetoRepository.findById(projetoId).get();
 				
 		return projeto;
+	}
+	
+	@RequestMapping(value = "/busca/u={usuarioId}", method = RequestMethod.GET)
+	public Iterable<Projeto> searchByUser(@PathVariable("usuarioId") Long usuarioId) throws Exception {
+		Usuario user = usuarioRepository.findById(usuarioId).get();
+
+		List<Habilidade> habilidadesUsuario = user.getHabilidades();
+		List<TopicoInteresse> topicosUsuario = user.getTopicosInteresse();
+		
+		List<Projeto> listaFull = new ArrayList<Projeto>();
+		
+		for (Habilidade h : habilidadesUsuario) {
+			Iterable<Projeto> projetosHab = projetoRepository.findAllByHabilidadesIdContains(h.getId());
+			for (Projeto p : projetosHab) {
+				if (!listaFull.contains(p) && user.getId() != p.getCriador().getId()) {
+					listaFull.add(p);
+				}
+			}
+		}
+		
+		for (TopicoInteresse t : topicosUsuario) {
+			Iterable<Projeto> projetosTop = projetoRepository.findAllByTopicosInteresseIdContains(t.getId());
+			for (Projeto p : projetosTop) {
+				if (!listaFull.contains(p) && user.getId() != p.getCriador().getId()) {
+					listaFull.add(p);
+				}
+			}
+		}
+		
+		return listaFull;
 	}
 }
