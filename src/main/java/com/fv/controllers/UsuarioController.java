@@ -45,6 +45,11 @@ public class UsuarioController {
 		return lis;
 	}
 	
+	@RequestMapping(value = "/u={usuarioId}", method = RequestMethod.GET)
+	public Usuario getById(@PathVariable("usuarioId") Long usuarioId) throws Exception {
+		return usuarioRepository.findById(usuarioId).get();
+	}
+	
 	@RequestMapping(value = "/username{username}", method = RequestMethod.GET)
 	public Usuario getByUsername(@PathVariable("username") String username) throws Exception {
 		Optional<Usuario> opt = usuarioRepository.findByUsername(username);

@@ -24,7 +24,7 @@
 		                	<ComboBox id="inputTopicos" class="campoBusca" type="Text" placeholder="Buscar tópico de interesse..." showSuggestion="true" items="{topicos>/}" >
 								<core:Item text="{topicos>nome}" key="{topicos>id}"/>
 							</ComboBox>
-							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
+							<Button id="btnAddT" text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddTopico"/>
 						</items>
                 		<layoutData/>
            			</HBox>
@@ -38,7 +38,7 @@
 		                	<ComboBox id="inputHabilidades" class="campoBusca" type="Text" placeholder="Buscar habilidade..." showSuggestion="true" items="{habilidades>/}" >
 								<core:Item text="{habilidades>nome}" key="{habilidades/id}"/>
 							</ComboBox>
-							<Button text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
+							<Button id="btnAddH" text="" type="Default" iconFirst="true" icon="sap-icon://add" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddHabilidade"/>
 						</items>
                 		<layoutData/>
            			</HBox>
@@ -50,7 +50,8 @@
             <OverflowToolbar width="100%" height="auto" design="Auto" enabled="true" visible="true">
                 <content>
                     <ToolbarSpacer width=""/>
-                    <Button text="Salvar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSave"/>
+                    <Button id="btnSav" text="Salvar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSave"/>
+                    <Button id="btnAdd" text="Adicionar ao projeto" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onAddParticipante"/>
                 </content>
             </OverflowToolbar>
         </footer>

@@ -121,7 +121,8 @@ sap.ui.define([
 			});
 		} else {
 			this.getRouter().navTo("toShowUsuario", {
-				usuarioId: oEvent.getSource().getSelectedItem().getAttributes()[0].getText()
+				usuarioId: oEvent.getSource().getSelectedItem().getAttributes()[0].getText(),
+				projetoId: this.getView().byId("cboxProjeto").getSelectedKey()
 			});
 		}
 	}

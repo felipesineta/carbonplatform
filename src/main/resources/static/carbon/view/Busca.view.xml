@@ -14,7 +14,7 @@
                                 </form:label>
                                 <form:fields>
                                     <RadioButtonGroup id="rbgroupFiltro">
-                                    	<RadioButton groupName="selecaoFiltro" text="Buscar projetos que tenham afinidade comigo"/>
+                                    	<RadioButton groupName="selecaoFiltro" text="Buscar projetos que tenham afinidade com meu perfil"/>
                                     	<RadioButton groupName="selecaoFiltro" text="Buscar possíveis participantes para o projeto selecionado"/>
                                     </RadioButtonGroup>
                                 </form:fields>

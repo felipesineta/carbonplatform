@@ -101,7 +101,7 @@
                     <Button text="" Type="Transparent"/>
                     <ToolbarSpacer width=""/>
                     <Button id="btnRodape" text="" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onSalvaProjeto"/>
-                    <Button id="btnRodape2" text="Pedir para participar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="false" iconDensityAware="false" press="onPedeParticipacao"/>
+                    <Button id="btnRodape2" text="Participar" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="false" iconDensityAware="false" press="onPedeParticipacao"/>
                 </content>
             </OverflowToolbar>
         </footer>

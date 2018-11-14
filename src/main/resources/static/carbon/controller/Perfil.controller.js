@@ -5,6 +5,7 @@ sap.ui.define([
 	onInit() {
 		const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		oRouter.getRoute("toPerfil").attachPatternMatched(this.show, this);
+		oRouter.getRoute("toShowUsuario").attachPatternMatched(this.showPublic, this);
 	},
 	
 	show(oEvent) {
@@ -54,6 +55,59 @@ sap.ui.define([
 		// limpa os campos de input
 		this.getView().byId("inputTopicos").setValue("");
 		this.getView().byId("inputHabilidades").setValue("");
+
+		this.getView().byId("btnAddT").setVisible(true);
+		this.getView().byId("btnAddH").setVisible(true);
+
+		this.getView().byId("btnAdd").setVisible(false);
+		this.getView().byId("btnSav").setVisible(true);
+	},
+	
+	showPublic(oEvent) {
+		const usuarioId = oEvent.getParameter('arguments').usuarioId;
+		const projetoId = oEvent.getParameter('arguments').projetoId;
+		
+		// carrega o model do usuario
+		const oModelPerfil = new sap.ui.model.json.JSONModel();
+		oModelPerfil.setData(jQuery.sap.syncGetJSON(`api/usuario/u=${usuarioId}`).data);
+		this.getView().setModel(oModelPerfil, "perfil");
+		
+		// carrega os topicos de interesse do usuario no painel
+		this.getView().byId("panelTopicos").destroyContent();
+		oModelPerfil.getData().topicosInteresse.forEach((item) => {
+			const oToken = new sap.m.Token({
+				key: item.id,
+				text: item.nome,
+				editable: false
+			}).addStyleClass("campoBusca");
+			oToken.placeAt(this.getView().byId("panelTopicos"));
+		});
+		
+		// carrega as habilidades do usuario no painel
+		this.getView().byId("panelHabilidades").destroyContent();
+		oModelPerfil.getData().habilidades.forEach((item) => {
+			const oToken = new sap.m.Token({
+				key: item.id,
+				text: item.nome,
+				editable: false
+			}).addStyleClass("campoBusca");
+			oToken.placeAt(this.getView().byId("panelHabilidades"));
+		});
+		
+		// carrega o model do projeto
+		const oModelProjeto = new sap.ui.model.json.JSONModel();
+		oModelProjeto.setData(jQuery.sap.syncGetJSON(`api/projeto/p=${projetoId}`).data);
+		this.getView().setModel(oModelProjeto, "projeto");
+
+		// apaga os campos de input
+		this.getView().byId("inputTopicos").setVisible(false);
+		this.getView().byId("inputHabilidades").setVisible(false);
+
+		this.getView().byId("btnAddT").setVisible(false);
+		this.getView().byId("btnAddH").setVisible(false);
+
+		this.getView().byId("btnAdd").setVisible(true);
+		this.getView().byId("btnSav").setVisible(false);
 	},
 	
 	onAddTopico(oEvent) {
@@ -227,6 +281,77 @@ sap.ui.define([
 				
 				that.getRouter().navTo("toHomepage");
 				sap.m.MessageToast.show("Perfil atualizado com sucesso!");
+			}
+		});
+	},
+	
+	onAddParticipante(oEvent) {
+		const dialog = new sap.m.BusyDialog();
+		dialog.open();
+		
+		const projeto = this.getView().getModel("projeto").getData();
+		const usuario = this.getView().getModel("perfil").getData();
+		
+		let jaTem = false;
+		
+		projeto.participantes.forEach((participante) => {
+			if (participante.id == usuario.id) {
+				sap.m.MessageToast.show("Usuário já é participante!");
+				jaTem = true;
+			}
+		});
+		
+		if (jaTem) {
+			dialog.close();
+			return;
+		}
+
+		projeto.participantes.push(usuario);
+		
+		let oProjeto = {
+			id: projeto.id,
+			nome: projeto.nome,
+			descricao: projeto.descricao,
+			criador: {id: projeto.criador.id},
+			participantes: [],
+			topicosInteresse: [],
+			habilidades: []
+		};
+		
+		projeto.topicosInteresse.forEach((item) => {
+			oProjeto.topicosInteresse.push({
+				id: null,
+				nome: item.nome
+			});
+		});
+		
+		projeto.habilidades.forEach((item) => {
+			oProjeto.habilidades.push({
+				id: null,
+				nome: item.nome
+			});
+		});
+		
+		projeto.participantes.forEach((item) => {
+			oProjeto.participantes.push({
+				id: null,
+				email: item.email
+			});
+		});
+		
+		const that = this;
+		
+		$.ajax({
+			method: "PUT",
+			url: "/carbon/api/projeto/update",
+			data: JSON.stringify(oProjeto),
+			dataType: "json",
+			contentType: 'application/json',
+			success: (oResult, oResponse) => {
+				dialog.close();
+				that.getRouter().navTo("toBusca");
+
+				sap.m.MessageToast.show("Participante adicionado!");
 			}
 		});
 	}

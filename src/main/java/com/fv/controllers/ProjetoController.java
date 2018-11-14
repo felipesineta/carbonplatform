@@ -79,7 +79,12 @@ public class ProjetoController {
 		return projeto;
 	}
 	
-
+	@RequestMapping(value = "/update/participante", method = RequestMethod.PUT)
+	public Projeto atualizaParticipante(HttpServletRequest request, @RequestBody Projeto projeto) throws Exception {
+		projetoRepository.save(projeto);
+		
+		return projetoRepository.findById(projeto.getId()).get();
+	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public Projeto atualiza(HttpServletRequest request, @RequestBody Projeto reqProjeto) throws Exception {

@@ -454,12 +454,12 @@ sap.ui.define([
 		}
 		
 		let oProjeto = {
-				nome: nome,
-				descricao: descricao,
-				criador: {id: sap.ui.getCore().getModel("logado").getData().id},
-				participantes: [],
-				topicosInteresse: [],
-				habilidades: []
+			nome: nome,
+			descricao: descricao,
+			criador: {id: sap.ui.getCore().getModel("logado").getData().id},
+			participantes: [],
+			topicosInteresse: [],
+			habilidades: []
 		};
 		
 		if (this.verb == "PUT") {
@@ -552,6 +552,77 @@ sap.ui.define([
 				aMensagens.push(oResult);
 				that.getView().getModel("mensagens").setData(aMensagens.reverse());
 				that.getView().invalidate();
+			}
+		});
+	},
+	
+	onPedeParticipacao(oEvent) {
+		const dialog = new sap.m.BusyDialog();
+		dialog.open();
+		
+		const projeto = this.getView().getModel("projeto").getData();
+		const usuario = sap.ui.getCore().getModel("logado").getData();
+		
+		let jaTem = false;
+		
+		projeto.participantes.forEach((participante) => {
+			if (participante.id == usuario.id) {
+				sap.m.MessageToast.show("Você já é participante!");
+				jaTem = true;
+			}
+		});
+		
+		if (jaTem) {
+			dialog.close();
+			return;
+		}
+
+		projeto.participantes.push(usuario);
+		
+		let oProjeto = {
+			id: projeto.id,
+			nome: projeto.nome,
+			descricao: projeto.descricao,
+			criador: {id: projeto.criador.id},
+			participantes: [],
+			topicosInteresse: [],
+			habilidades: []
+		};
+		
+		projeto.topicosInteresse.forEach((item) => {
+			oProjeto.topicosInteresse.push({
+				id: null,
+				nome: item.nome
+			});
+		});
+		
+		projeto.habilidades.forEach((item) => {
+			oProjeto.habilidades.push({
+				id: null,
+				nome: item.nome
+			});
+		});
+		
+		projeto.participantes.forEach((item) => {
+			oProjeto.participantes.push({
+				id: null,
+				email: item.email
+			});
+		});
+		
+		const that = this;
+		
+		$.ajax({
+			method: "PUT",
+			url: "/carbon/api/projeto/update",
+			data: JSON.stringify(oProjeto),
+			dataType: "json",
+			contentType: 'application/json',
+			success: (oResult, oResponse) => {
+				dialog.close();
+				that.getRouter().navTo("toBusca");
+
+				sap.m.MessageToast.show("Participante adicionado!");
 			}
 		});
 	}
